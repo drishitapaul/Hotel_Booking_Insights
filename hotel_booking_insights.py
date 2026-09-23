@@ -25,12 +25,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score,
-    roc_auc_score, confusion_matrix, classification_report
+    roc_auc_score, confusion_matrix
 )
 
 st.set_page_config(
     page_title="Hotel Booking Insights",
-    page_icon="🏨",
+    page_icon=None,
     layout="wide"
 )
 
@@ -97,7 +97,7 @@ def train_models(df):
         "children", "babies", "meal", "country", "market_segment",
         "distribution_channel", "is_repeated_guest",
         "previous_cancellations", "previous_bookings_not_canceled",
-        "reserved_room_type", "assigned_room_type", "booking_changes",
+        "reserved_room_type",
         "deposit_type", "days_in_waiting_list", "customer_type",
         "adr", "required_car_parking_spaces", "total_of_special_requests"
     ]
@@ -109,8 +109,14 @@ def train_models(df):
     X = model_df[available]
     y = model_df[target].astype(int)
 
-    categorical = X.select_dtypes(include=["object"]).columns.tolist()
-    numeric = [c for c in X.columns if c not in categorical]
+    categorical = X.select_dtypes(
+    include=["object", "string", "category"]
+).columns.tolist()
+
+    numeric = [
+    c for c in X.columns
+    if c not in categorical
+]
 
     numeric_pipe = Pipeline([
         ("imputer", SimpleImputer(strategy="median")),
@@ -193,7 +199,7 @@ def monthly_bookings(df):
 
 
 def main():
-    st.title("🏨 Hotel Booking Insights")
+    st.title("Hotel Booking Insights")
     st.caption("Data Analytics & Cancellation Prediction")
 
     if not DATA_PATH.exists():
@@ -375,8 +381,6 @@ def main():
         "previous_cancellations": 0,
         "previous_bookings_not_canceled": 0,
         "reserved_room_type": "A",
-        "assigned_room_type": "A",
-        "booking_changes": 0,
         "deposit_type": "No Deposit",
         "days_in_waiting_list": 0,
         "customer_type": "Transient",
@@ -391,7 +395,7 @@ def main():
 
     with left:
         for c in cols[:len(cols)//2]:
-            if X_test[c].dtype == "object":
+            if not pd.api.types.is_numeric_dtype(X_test[c]):
                 options = sorted(df[c].dropna().astype(str).unique().tolist())
                 default = str(feature_defaults[c]) if str(feature_defaults[c]) in options else options[0]
                 input_data[c] = st.selectbox(c.replace("_", " ").title(), options, index=options.index(default))
@@ -404,7 +408,7 @@ def main():
 
     with right:
         for c in cols[len(cols)//2:]:
-            if X_test[c].dtype == "object":
+            if not pd.api.types.is_numeric_dtype(X_test[c]):
                 options = sorted(df[c].dropna().astype(str).unique().tolist())
                 default = str(feature_defaults[c]) if str(feature_defaults[c]) in options else options[0]
                 input_data[c] = st.selectbox(c.replace("_", " ").title(), options, index=options.index(default))

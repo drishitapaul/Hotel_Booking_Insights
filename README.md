@@ -10,10 +10,15 @@
 [![Streamlit](https://img.shields.io/badge/Streamlit-Interactive%20Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
 
 ---
+## Live Demo
 
-### [View Live Dashboard](https://hotelbookinginsights.streamlit.app/)
+[Launch the Interactive Streamlit Dashboard](https://hotelbookinginsights.streamlit.app/)
 
-## PROJECT SNAPSHOT
+**Explore the dashboard → analyze booking trends → compare ML models → test cancellation risk → view business actions**
+
+---
+
+## PROJECT Highlights
 
 | | |
 |---|---|

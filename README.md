@@ -11,6 +11,8 @@
 
 ---
 
+### [View Live Dashboard](https://hotelbookinginsights.streamlit.app/)
+
 ## PROJECT SNAPSHOT
 
 | | |
